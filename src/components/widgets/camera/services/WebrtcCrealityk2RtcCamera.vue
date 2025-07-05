@@ -57,9 +57,9 @@ export default class WebrtcCrealityk2RtcCamera extends Mixins(CameraMixin) {
             method: 'POST'
           })
           const res = await response.text()
-          const jsonRes = JSON.parse(atob(res))
-          if (jsonRes.type === 'answer') {
-            pc.setRemoteDescription(new RTCSessionDescription(jsonRes))
+          const jsonRes = JSON.parse(atob(res)) as unknown
+          if (jsonRes && typeof jsonRes === 'object' && 'type' in jsonRes && jsonRes.type === 'answer') {
+            pc.setRemoteDescription(new RTCSessionDescription(jsonRes as RTCSessionDescriptionInit))
           }
         }
       }
